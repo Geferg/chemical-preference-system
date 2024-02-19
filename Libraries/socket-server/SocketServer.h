@@ -15,6 +15,8 @@
 #include <sys/wait.h>
 #include <vector>
 
+
+
 namespace Libraries {
     class SocketServer {
     public:
@@ -24,8 +26,8 @@ namespace Libraries {
 
         int start();
         int stop();
-    private:
 
+    private:
         const char *port_;
         const int backlog_;
         int socket_file_descriptor_;
@@ -46,6 +48,9 @@ namespace Libraries {
         int reap();
         int acceptClients();
         void handleClient(int fd);
+
+
+        // Helpers
 
         // Saves and restores errno in case Waitpid() overwrites it
         static void sigchldHandler(int s);

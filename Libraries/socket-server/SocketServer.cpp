@@ -13,6 +13,8 @@
 #include <netdb.h>
 #include <sys/wait.h>
 
+#include "Serializer.h"
+
 namespace Libraries {
     SocketServer::SocketServer(const char *port, const int backlog) : backlog_(backlog) {
         port_ = port;
@@ -170,7 +172,13 @@ namespace Libraries {
     }
 
     void SocketServer::handleClient(int fd) {
-        if (send(fd, "Connected", 9, 0) == -1) {
+
+        unsigned char buf[1024];
+        char *text = (char*)"hello, you";
+
+        Serializer::pack(buf, (char*)"L", text);
+
+        if (send(fd, buf, 1024, 0) == -1) {
             perror("send");
         }
 
