@@ -1,0 +1,3 @@
+C:/Users/krist/CLionProjects/chemical-preference-system/cmake-build-debug/CMakeFiles/chemical_preference_system.dir
+C:/Users/krist/CLionProjects/chemical-preference-system/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/krist/CLionProjects/chemical-preference-system/cmake-build-debug/CMakeFiles/rebuild_cache.dir
