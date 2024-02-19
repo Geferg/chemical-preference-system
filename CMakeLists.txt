@@ -7,4 +7,6 @@ add_executable(chemical_preference_system main.cpp
         Libraries/socket-server/SocketServer.cpp
         Libraries/socket-server/SocketServer.h
         Libraries/hardware-control/HardwareControl.cpp
-        Libraries/hardware-control/HardwareControl.h)
+        Libraries/hardware-control/HardwareControl.h
+        Libraries/socket-server/Serializer.cpp
+        Libraries/socket-server/Serializer.h)

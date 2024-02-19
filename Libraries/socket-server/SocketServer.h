@@ -13,6 +13,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <sys/wait.h>
+#include <vector>
 
 namespace Libraries {
     class SocketServer {
@@ -34,9 +35,9 @@ namespace Libraries {
         struct sockaddr_storage their_addr_; // connector's_ address information
         socklen_t sin_size_;
         struct sigaction sa_;
-
         char s_[INET6_ADDRSTRLEN];
         int rv_;
+        std::vector<int> client_file_descriptors_;
 
         int loadAddress();
         int tryBind();
@@ -44,6 +45,7 @@ namespace Libraries {
         int stopListen();
         int reap();
         int acceptClients();
+        void handleClient(int fd);
 
         // Saves and restores errno in case Waitpid() overwrites it
         static void sigchldHandler(int s);
