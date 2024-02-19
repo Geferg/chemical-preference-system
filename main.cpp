@@ -9,10 +9,7 @@ int main() {
     auto server = SocketServer("3490");
 
     server.debug = true;
-    server.initialize();
-    server.tryBind();
-
-
+    server.start();
 
     return 0;
 }

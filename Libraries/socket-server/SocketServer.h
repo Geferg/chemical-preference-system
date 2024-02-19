@@ -21,8 +21,8 @@ namespace Libraries {
 
         explicit SocketServer(const char *port);
 
-        int initialize();
-        int tryBind();
+        int start();
+        int stop();
     private:
 
         const char *port_;
@@ -36,6 +36,11 @@ namespace Libraries {
 
         char s_[INET6_ADDRSTRLEN];
         int rv_;
+
+        int loadAddress();
+        int tryBind();
+        int startListen();
+        int stopListen();
 
         // Saves and restores errno in case Waitpid() overwrites it
         static void sigchldHandler(int s);

@@ -19,7 +19,22 @@ namespace Libraries {
         debug = false;
     }
 
-    int SocketServer::initialize() {
+    int SocketServer::start() {
+        // Load up address structs
+        loadAddress();
+        tryBind();
+        startListen();
+
+        return 0;
+    }
+
+    int SocketServer::stop() {
+        stopListen();
+
+        return 0;
+    }
+
+    int SocketServer::loadAddress() {
         memset(&hints_, 0, sizeof hints_);
         hints_.ai_family = AF_UNSPEC;
         hints_.ai_socktype = SOCK_STREAM;
@@ -39,7 +54,6 @@ namespace Libraries {
 
         return 0;
     }
-
 
     int SocketServer::tryBind() {
         int yes = 1;
@@ -71,12 +85,36 @@ namespace Libraries {
                 continue;
             }
 
-            std::cout << "Server is bound.\n";
-            return 0;
         }
 
-        return 1;
+        freeaddrinfo(serv_info_);
+
+        if (p_ == nullptr)  {
+            fprintf(stderr, "server: failed to bind\n");
+            exit(1);
+        }
+
+        if (debug) {
+            std::cout << "Server is bound.\n";
+        }
+
+        return 0;
     }
+
+    int SocketServer::startListen() {
+
+
+        return 0;
+    }
+
+    int SocketServer::stopListen() {
+
+
+
+        return 0;
+    }
+
+
 
     void SocketServer::sigchldHandler(int s) {
         int saved_errno = errno;
