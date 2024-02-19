@@ -19,13 +19,14 @@ namespace Libraries {
     public:
         bool debug;
 
-        explicit SocketServer(const char *port);
+        explicit SocketServer(const char *port, const int backlog);
 
         int start();
         int stop();
     private:
 
         const char *port_;
+        const int backlog_;
         int socket_file_descriptor_;
         struct addrinfo hints_;
         struct addrinfo *serv_info_;
@@ -41,6 +42,8 @@ namespace Libraries {
         int tryBind();
         int startListen();
         int stopListen();
+        int reap();
+        int acceptClients();
 
         // Saves and restores errno in case Waitpid() overwrites it
         static void sigchldHandler(int s);
