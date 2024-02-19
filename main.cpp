@@ -5,10 +5,10 @@
 using namespace Libraries;
 
 int main() {
-    SocketServer server {
-        .port = 3490
-    };
 
+    auto server = SocketServer("3490");
+    server.debug = true;
+    server.initialize();
 
     std::cout << "Hello, World!" << std::endl;
     return 0;
