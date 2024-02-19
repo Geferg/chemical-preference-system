@@ -7,9 +7,12 @@ using namespace Libraries;
 int main() {
 
     auto server = SocketServer("3490");
+
     server.debug = true;
     server.initialize();
+    server.tryBind();
 
-    std::cout << "Hello, World!" << std::endl;
+
+
     return 0;
 }

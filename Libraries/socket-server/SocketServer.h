@@ -22,19 +22,20 @@ namespace Libraries {
         explicit SocketServer(const char *port);
 
         int initialize();
+        int tryBind();
     private:
 
         const char *port_;
-        int socket_file_descriptor;
-        struct addrinfo hints;
-        struct addrinfo *serv_info;
-        struct addrinfo *p;
-        struct sockaddr_storage their_addr{}; // connector's address information
-        socklen_t sin_size;
-        struct sigaction sa;
-        int yes=1;
-        char s[INET6_ADDRSTRLEN];
-        int rv;
+        int socket_file_descriptor_;
+        struct addrinfo hints_;
+        struct addrinfo *serv_info_;
+        struct addrinfo *p_;
+        struct sockaddr_storage their_addr_; // connector's_ address information
+        socklen_t sin_size_;
+        struct sigaction sa_;
+
+        char s_[INET6_ADDRSTRLEN];
+        int rv_;
 
         // Saves and restores errno in case Waitpid() overwrites it
         static void sigchldHandler(int s);
