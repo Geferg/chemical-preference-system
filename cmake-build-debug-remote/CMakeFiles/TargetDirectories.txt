@@ -1,0 +1,3 @@
+/tmp/tmp.tuUsukCy81/cmake-build-debug-remote/CMakeFiles/chemical_preference_system.dir
+/tmp/tmp.tuUsukCy81/cmake-build-debug-remote/CMakeFiles/edit_cache.dir
+/tmp/tmp.tuUsukCy81/cmake-build-debug-remote/CMakeFiles/rebuild_cache.dir
