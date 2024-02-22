@@ -9,4 +9,9 @@ add_executable(chemical_preference_system main.cpp
         Libraries/hardware-control/HardwareControl.cpp
         Libraries/hardware-control/HardwareControl.h
         Libraries/socket-server/Serializer.cpp
-        Libraries/socket-server/Serializer.h)
+        Libraries/socket-server/Serializer.h
+        Libraries/hardware-control/enums.h
+        Libraries/hardware-control/ValveHandler.cpp
+        Libraries/hardware-control/ValveHandler.h)
+
+target_link_libraries(chemical_preference_system pigpio)

@@ -173,13 +173,29 @@ namespace Libraries {
 
     void SocketServer::handleClient(int fd) {
 
-        unsigned char buf[1024];
+        unsigned char buf_in[1024];
+        unsigned char buf_out[1024];
+        unsigned char buf_internal[1024];
         char *text = (char*)"hello, you";
 
-        Serializer::pack(buf, (char*)"L", text);
+        Serializer::pack(buf_out, (char*)"s", text);
 
-        if (send(fd, buf, 1024, 0) == -1) {
+        if (send(fd, buf_out, 1024, 0) == -1) {
             perror("send");
+        }
+
+        if (recv(fd, buf_in, 1024, 0) == -1) {
+            perror("recv");
+        }
+
+        if (debug) {
+            std::cout << buf_internal;
+        }
+
+        Serializer::unpack(buf_internal, (char*)"s", buf_in);
+
+        if (debug) {
+            std::cout << buf_internal;
         }
 
 
