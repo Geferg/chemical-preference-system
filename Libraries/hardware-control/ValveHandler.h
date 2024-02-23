@@ -13,6 +13,8 @@ namespace Libraries {
             }
         }
 
+        int prepareGpio();
+
         /*
          *  |         |   Left    |   Right   |  Bottom   |
          *  |---------|-----|-----|-----|-----|-----|-----|
@@ -27,7 +29,7 @@ namespace Libraries {
     private:
         unsigned int valve_gpio_pins[6]{};
 
-        int prepareGpio();
+
     };
 
 }

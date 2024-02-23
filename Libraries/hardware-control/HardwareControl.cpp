@@ -15,19 +15,7 @@ namespace Libraries {
         }
 
         gpio_initialized = true;
-
-        for (unsigned int gpioPin : valve_gpio_pins) {
-            gpioSetMode(gpioPin, PI_OUTPUT);
-            gpioWrite(gpioPin, PI_LOW);
-        }
-
-        gpioDelay(500000);
-
-        for (unsigned  int gpioPin : valve_gpio_pins) {
-            gpioWrite(gpioPin, PI_HIGH);
-            gpioDelay(100000);
-            gpioWrite(gpioPin, PI_LOW);
-        }
+        valveHandler.prepareGpio();
 
         return 0;
     }
@@ -37,9 +25,7 @@ namespace Libraries {
             return -1;
         }
 
-        int ret = valveHandler.set(valves, mode);
-
-        return ret;
+        return valveHandler.set(valves, mode);
     }
 
     void HardwareControl::delay(int millis) {
