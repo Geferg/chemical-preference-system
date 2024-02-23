@@ -3,15 +3,12 @@
 
 #include "enums.h"
 #include "ValveHandler.h"
+#include "MotorHandler.h"
 
 namespace Libraries {
 
     class HardwareControl {
     public:
-        HardwareControl() {
-
-        }
-
         static int initialize();
 
         // |  Mode   | V1  | V2  | V3  | V4  | V5  | V6  |
@@ -22,17 +19,21 @@ namespace Libraries {
         // | Trash   | n/a | n/a | n/a | n/a |  1  |  1  |
         static int setValveMode(ValveCluster valves, ValveMode mode);
 
+        static int runMotor(MotorDirection direction, int step_period_millis, int run_period_millis);
 
+        static bool isReady();
+        static bool isInitialized();
         static void delay(int millis);
 
     private:
         static ValveHandler valveHandler;
+        static MotorHandler motorHandler;
 
         static const unsigned int visible_light_pin = 10;
         static const unsigned int ir_light_pin = 9;
 
-        static const unsigned int motor_up_pin = 11;
-        static const unsigned int motor_down_pin = 22;
+        static const unsigned int motor_dir_pin = 11;
+        static const unsigned int motor_step_pin = 22;
 
         static const unsigned int valve_1_gpio_pin = 26;
         static const unsigned int valve_2_gpio_pin = 19;
@@ -51,6 +52,7 @@ namespace Libraries {
         };
 
         static bool gpio_initialized;
+        static bool gpio_ready;
     };
 
 } // Libraries

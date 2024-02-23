@@ -14,4 +14,9 @@ enum ValveMode {
     trash
 };
 
+enum MotorDirection {
+    up,
+    down
+};
+
 #endif //CHEMICAL_PREFERENCE_SYSTEM_ENUMS_H

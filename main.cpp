@@ -6,7 +6,7 @@
 using namespace Libraries;
 
 void cycle() {
-    HardwareControl::setValveMode(left, product);
+    HardwareControl::setValveMode(left, buffer);
     HardwareControl::setValveMode(right, buffer);
     HardwareControl::setValveMode(bottom, trash);
 
@@ -18,7 +18,7 @@ void cycle() {
 
     HardwareControl::delay(4000);
 
-    HardwareControl::setValveMode(left, buffer);
+    HardwareControl::setValveMode(left, product);
     HardwareControl::setValveMode(right, buffer);
     HardwareControl::setValveMode(bottom, trash);
 
@@ -40,7 +40,10 @@ int main() {
 
     HardwareControl::initialize();
 
-    cycle();
+    //cycle();
+
+    // about 2.7 cm per 10 000 cycles?
+    HardwareControl::runMotor(down, 10, 10000);
 
     return 0;
 }
