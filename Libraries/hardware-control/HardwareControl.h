@@ -9,7 +9,7 @@ namespace Libraries {
     class HardwareControl {
     public:
         HardwareControl() {
-            valveHandler = ValveHandler(valve_gpio_pins);
+
         }
 
         static int initialize();
@@ -50,7 +50,7 @@ namespace Libraries {
                 valve_6_gpio_pin
         };
 
-        static inline bool gpio_initialized = false;
+        static bool gpio_initialized;
     };
 
 } // Libraries

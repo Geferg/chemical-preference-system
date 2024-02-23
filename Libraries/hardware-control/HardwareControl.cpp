@@ -6,6 +6,9 @@
 
 namespace Libraries {
 
+    ValveHandler HardwareControl::valveHandler = ValveHandler(valve_gpio_pins);
+    bool HardwareControl::gpio_initialized = false;
+
     int HardwareControl::initialize() {
         if (gpioInitialise() == -1) {
             return -1;
@@ -29,88 +32,14 @@ namespace Libraries {
         return 0;
     }
 
-    //TODO move to valve logic handler along with motor handler
     int HardwareControl::setValveMode(ValveCluster valves, ValveMode mode) {
-        /*
         if (!gpio_initialized) {
             return -1;
         }
-        */
 
-        //valveHandler.set(valves, mode);
+        int ret = valveHandler.set(valves, mode);
 
-
-        switch (mode) {
-            case buffer:
-                switch (valves) {
-                    case left:
-                        gpioWrite(valve_1_gpio_pin, PI_LOW);
-                        gpioWrite(valve_2_gpio_pin, PI_LOW);
-                        break;
-
-                    case right:
-                        gpioWrite(valve_4_gpio_pin, PI_LOW);
-                        gpioWrite(valve_3_gpio_pin, PI_LOW);
-                        break;
-
-                    case bottom:
-                        return -1;
-                }
-                break;
-
-            case product:
-                switch (valves) {
-                    case left:
-                        gpioWrite(valve_1_gpio_pin, PI_LOW);
-                        gpioWrite(valve_2_gpio_pin, PI_HIGH);
-                        break;
-
-                    case right:
-                        gpioWrite(valve_4_gpio_pin, PI_LOW);
-                        gpioWrite(valve_3_gpio_pin, PI_HIGH);
-                        break;
-
-                    case bottom:
-                        return -1;
-                }
-                break;
-
-            case circuit:
-                switch (valves) {
-                    case left:
-                        gpioWrite(valve_1_gpio_pin, PI_HIGH);
-                        break;
-
-                    case right:
-                        gpioWrite(valve_4_gpio_pin, PI_HIGH);
-                        break;
-
-                    case bottom:
-                        gpioWrite(valve_5_gpio_pin, PI_LOW);
-                        gpioWrite(valve_6_gpio_pin, PI_LOW);
-                        break;
-                }
-                break;
-
-            case trash:
-                switch (valves) {
-                    case bottom:
-                        gpioWrite(valve_5_gpio_pin, PI_HIGH);
-                        gpioWrite(valve_6_gpio_pin, PI_HIGH);
-                        break;
-
-                    case left:
-                    case right:
-                        return -1;
-                }
-
-
-                break;
-        }
-
-
-
-        return 0;
+        return ret;
     }
 
     void HardwareControl::delay(int millis) {
