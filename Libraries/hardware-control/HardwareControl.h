@@ -19,7 +19,7 @@ namespace Libraries {
         // | Trash   | n/a | n/a | n/a | n/a |  1  |  1  |
         static int setValveMode(ValveCluster valves, ValveMode mode);
 
-        static int runMotor(MotorDirection direction, int step_period_millis, int run_period_millis);
+        static int runMotor(MotorDirection direction, int step_period_micros, int run_period_millis);
 
         static bool isReady();
         static bool isInitialized();
@@ -34,6 +34,7 @@ namespace Libraries {
 
         static const unsigned int motor_dir_pin = 11;
         static const unsigned int motor_step_pin = 22;
+        static const unsigned int motor_sleep_pin = 23;
 
         static const unsigned int valve_1_gpio_pin = 26;
         static const unsigned int valve_2_gpio_pin = 19;

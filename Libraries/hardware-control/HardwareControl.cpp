@@ -9,7 +9,7 @@
 namespace Libraries {
 
     ValveHandler HardwareControl::valveHandler = ValveHandler(valve_gpio_pins);
-    MotorHandler HardwareControl::motorHandler = MotorHandler(motor_dir_pin, motor_step_pin);
+    MotorHandler HardwareControl::motorHandler = MotorHandler(motor_dir_pin, motor_step_pin, motor_sleep_pin);
 
     bool HardwareControl::gpio_initialized = false;
     bool HardwareControl::gpio_ready = false;
@@ -45,12 +45,12 @@ namespace Libraries {
         return valveHandler.set(valves, mode);
     }
 
-    int HardwareControl::runMotor(MotorDirection direction, int step_period_millis, int run_period_millis) {
+    int HardwareControl::runMotor(MotorDirection direction, int step_period_micros, int run_period_millis) {
         if (!gpio_initialized) {
             return -1;
         }
 
-        return motorHandler.runFor(direction, step_period_millis, run_period_millis);
+        return motorHandler.runFor(direction, step_period_micros, run_period_millis);
     }
 
     bool HardwareControl::isInitialized() {

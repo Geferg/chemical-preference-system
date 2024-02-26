@@ -18,6 +18,13 @@ namespace Libraries {
             return ret;
         }
 
+        ret = gpioSetMode(sleep_gpio_pin, PI_OUTPUT);
+        if (ret != 0) {
+            return ret;
+        }
+
+        gpioWrite(sleep_gpio_pin, PI_LOW);
+
         return 0;
     }
 
@@ -34,7 +41,12 @@ namespace Libraries {
         return 0;
     }
 
-    int MotorHandler::runFor(MotorDirection direction, int step_period_millis, int run_period_millis) {
+    int MotorHandler::runFor(MotorDirection direction, unsigned int step_period_micros, int run_period_millis) {
+
+        gpioWrite(sleep_gpio_pin, PI_HIGH);
+
+        gpioDelay(2000);
+
         gpioWrite(step_gpio_pin, PI_LOW);
         if (direction == up) {
             gpioWrite(dir_gpio_pin, PI_LOW);
@@ -48,24 +60,24 @@ namespace Libraries {
         long cycle_time;
         long cycle_error = 0;
 
-        for(int i = 0; i < run_period_millis; i += step_period_millis) {
+        for(unsigned int i = 0; i < run_period_millis; i += step_period_micros/1000) {
             long compensate_micros = getCompensationMicros(cycle_error);
 
             auto cycle_start = std::chrono::high_resolution_clock::now();
 
-            if (step_period_millis * 1000 - compensate_micros < 0) {
-                compensate_micros = step_period_millis * 1000 - 4;
+            if (step_period_micros - compensate_micros < 0) {
+                compensate_micros = step_period_micros - 4;
             }
 
             gpioWrite(step_gpio_pin, PI_HIGH);
-            gpioDelay(step_period_millis * 500 - compensate_micros/2);
+            gpioDelay((step_period_micros - compensate_micros)/2);
             gpioWrite(step_gpio_pin, PI_LOW);
-            gpioDelay(step_period_millis * 500 - compensate_micros/2);
+            gpioDelay((step_period_micros - compensate_micros)/2);
 
             auto cycle_stop = std::chrono::high_resolution_clock::now();
 
             cycle_time = std::chrono::duration_cast<std::chrono::microseconds>(cycle_stop - cycle_start).count();
-            cycle_error = cycle_time - step_period_millis * 1000;
+            cycle_error = cycle_time - step_period_micros;
         }
 
         // UNCOMMENT FOR TUNING COMPENSATOR PID
@@ -80,6 +92,7 @@ namespace Libraries {
         //std::cout << "Error per cycle: " << error_per_cycle << "μs\n";
 
         gpioWrite(dir_gpio_pin, PI_LOW);
+        gpioWrite(sleep_gpio_pin, PI_LOW);
         clearCompensation();
 
         return 0;
@@ -100,5 +113,13 @@ namespace Libraries {
         last_error = 0;
         total_error = 0;
         cycle_count = 0;
+    }
+
+    void MotorHandler::sleepMotor() {
+
+    }
+
+    void MotorHandler::wakeMotor() {
+
     }
 }

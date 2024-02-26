@@ -1,4 +1,7 @@
+#include <cmath>
 #include <iostream>
+#include <chrono>
+#include <cmath>
 
 #include "Libraries/socket-server/SocketServer.h"
 #include "Libraries/hardware-control/HardwareControl.h"
@@ -40,10 +43,20 @@ int main() {
 
     HardwareControl::initialize();
 
+
+    if (!HardwareControl::isInitialized() || !HardwareControl::isReady()) {
+        return -1;
+    }
+
     //cycle();
 
-    // about 2.7 cm per 10 000 cycles?
-    HardwareControl::runMotor(down, 10, 10000);
+    float ml = 27.78;
+    int cycles = (int)(ml * 720);
+
+    std::cout << "cycles " << cycles << "\n";
+    HardwareControl::runMotor(up, 2000, cycles);
+    HardwareControl::delay(3000);
+    HardwareControl::runMotor(down, 2000, cycles);
 
     return 0;
 }
