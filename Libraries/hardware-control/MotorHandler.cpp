@@ -41,7 +41,9 @@ namespace Libraries {
         return 0;
     }
 
-    int MotorHandler::runFor(MotorDirection direction, unsigned int step_period_micros, int run_period_millis) {
+    int MotorHandler::runFor(MotorDirection direction, unsigned int step_period_micros, unsigned int run_period_micros) {
+
+        //TODO implement half steps?
 
         gpioWrite(sleep_gpio_pin, PI_HIGH);
 
@@ -60,7 +62,7 @@ namespace Libraries {
         long cycle_time;
         long cycle_error = 0;
 
-        for(unsigned int i = 0; i < run_period_millis; i += step_period_micros/1000) {
+        for(unsigned int i = 0; i < run_period_micros; i += step_period_micros) {
             long compensate_micros = getCompensationMicros(cycle_error);
 
             auto cycle_start = std::chrono::high_resolution_clock::now();

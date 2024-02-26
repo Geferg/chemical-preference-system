@@ -22,7 +22,7 @@ namespace Libraries {
         int prepareGpio();
         int run(MotorDirection direction, int step_period_millis);
         int stop();
-        int runFor(MotorDirection direction, unsigned int step_period_micros, int run_period_millis);
+        int runFor(MotorDirection direction, unsigned int step_period_micros, unsigned int run_period_micros);
 
     private:
         unsigned int dir_gpio_pin;

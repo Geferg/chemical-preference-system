@@ -19,7 +19,9 @@ namespace Libraries {
         // | Trash   | n/a | n/a | n/a | n/a |  1  |  1  |
         static int setValveMode(ValveCluster valves, ValveMode mode);
 
-        static int runMotor(MotorDirection direction, int step_period_micros, int run_period_millis);
+        static int runMotorByTime(MotorDirection direction, unsigned int time_us, unsigned int period_us_per_step);
+        static int runMotorByDistance(MotorDirection direction, unsigned int distance_mm, unsigned int velocity_mm_per_s);
+        static int runMotorByVolume(MotorDirection direction, unsigned int volume_ml, unsigned int flow_ml_per_s);
 
         static bool isReady();
         static bool isInitialized();

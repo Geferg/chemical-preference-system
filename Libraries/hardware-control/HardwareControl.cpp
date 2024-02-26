@@ -45,12 +45,46 @@ namespace Libraries {
         return valveHandler.set(valves, mode);
     }
 
-    int HardwareControl::runMotor(MotorDirection direction, int step_period_micros, int run_period_millis) {
+    int HardwareControl::runMotorByTime(MotorDirection direction,
+                                        unsigned int time_us,
+                                        unsigned int period_us_per_step) {
         if (!gpio_initialized) {
             return -1;
         }
 
-        return motorHandler.runFor(direction, step_period_micros, run_period_millis);
+        std::cout << "period: " << period_us_per_step << "us\n";
+        std::cout << "time: " << time_us << "us\n";
+
+        return motorHandler.runFor(direction, period_us_per_step, time_us);
+    }
+
+    int HardwareControl::runMotorByDistance(MotorDirection direction,
+                                            unsigned int distance_mm,
+                                            unsigned int velocity_mm_per_s) {
+        if (!gpio_initialized) {
+            return -1;
+        }
+
+        // 400 cycles => 1 mm change, QED
+        unsigned int period_us_per_step = 2500/velocity_mm_per_s;
+        unsigned int time_us = period_us_per_step * 400 * distance_mm;
+
+        return runMotorByTime(direction, time_us, period_us_per_step);
+    }
+
+    int HardwareControl::runMotorByVolume(MotorDirection direction,
+                                          unsigned int volume_ml,
+                                          unsigned int flow_ml_per_s) {
+        if (!gpio_initialized) {
+            return -1;
+        }
+
+        // 9/5 mm => 1 ml change
+        //TODO fix
+        unsigned int distance_mm = volume_ml * 9/5;
+        unsigned int velocity_mm_per_s = distance_mm * flow_ml_per_s/volume_ml;
+
+        return runMotorByDistance(direction, distance_mm, velocity_mm_per_s);
     }
 
     bool HardwareControl::isInitialized() {
@@ -64,4 +98,6 @@ namespace Libraries {
     void HardwareControl::delay(int millis) {
         gpioDelay(millis * 1000);
     }
+
+
 }
